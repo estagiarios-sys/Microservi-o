@@ -14,10 +14,18 @@ const imageToBase64 = (path) => {
 const base64Image = imageToBase64('img/logo.png');
 
 app.post('/generate-pdf', async (req, res) => {
-    const { html } = req.body;
+    const { fullTableHTML, titlePDF, imgPDF } = req.body;
 
-    if (!html) {
+    if (!fullTableHTML) {
         return res.status(400).send('O corpo da requisição deve conter o campo "html" com o conteúdo da tabela.');
+    }
+
+    if (titlePDF === '') {
+        titlePDF = 'Relatório';
+    }
+
+    if (imgPDF === '') {
+        imgPDF = base64Image;
     }
 
     try {
@@ -44,7 +52,7 @@ app.post('/generate-pdf', async (req, res) => {
                 </style>
             </head>
             <body>
-                ${html}
+                ${fullTableHTML}
             </body>
             </html>
         `;
@@ -64,7 +72,7 @@ app.post('/generate-pdf', async (req, res) => {
                 <div style="width: 100%; position: relative; padding: 0 20px; box-sizing: border-box; height: 50px; display: flex; align-items: center;">
                     <img alt="Logo Systextil" style="height: 30px; position: absolute; left: 20px;" src="${base64Image}" />
                     <div style="font-size: 30px; text-align: center; width: 100%; position: absolute; left: 0; right: 0; margin: auto;">
-                        <span>Relatório</span>
+                        <span>${titlePDF}</span>
                     </div>
                 </div>`,
             footerTemplate: `
@@ -90,12 +98,20 @@ app.post('/generate-pdf', async (req, res) => {
 });
 
 app.post('/preview-pdf', async (req, res) => {
-    const { html } = req.body;
+    const { fullTableHTML, titlePDF, imgPDF } = req.body;
 
-    if (!html) {
+    if (!fullTableHTML) {
         return res.status(400).send('O corpo da requisição deve conter o campo "html" com o conteúdo da tabela.');
     }
 
+    if (titlePDF === '') {
+        titlePDF = 'Relatório';
+    }
+
+    if (imgPDF === '') {
+        imgPDF = base64Image;
+    }
+    
     try {
         const browser = await puppeteer.launch({
             headless: true, // Modo headless para performance
@@ -120,7 +136,7 @@ app.post('/preview-pdf', async (req, res) => {
                 </style>
             </head>
             <body>
-                ${html}
+                ${fullTableHTML}
             </body>
             </html>
         `;
@@ -139,9 +155,9 @@ app.post('/preview-pdf', async (req, res) => {
             displayHeaderFooter: true,
             headerTemplate: `
                 <div style="width: 100%; position: relative; padding: 0 20px; box-sizing: border-box; height: 50px; display: flex; align-items: center;">
-                    <img alt="Logo Systextil" style="height: 30px; position: absolute; left: 20px;" src="${base64Image}" />
+                    <img alt="Logo Systextil" style="height: 30px; position: absolute; left: 20px;" src="${imgPDF}" />
                     <div style="font-size: 30px; text-align: center; width: 100%; position: absolute; left: 0; right: 0; margin: auto;">
-                        <span>Relatório</span>
+                        <span>${titlePDF}</span>
                     </div>
                 </div>`,
             footerTemplate: `
