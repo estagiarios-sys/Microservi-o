@@ -16,7 +16,9 @@ const generateHTML = (fullTableHTML) => `
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
         <style>
             @page { margin: 100px 30px 50px 30px; }
-            body { font-family: Arial, sans-serif; }
+            thead { font-size: 12px; }
+            tbody { font-size: 12px; }
+            ftotalizer { font-size: 12px; }
         </style>
     </head>
     <body>
