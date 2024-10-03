@@ -50,7 +50,8 @@ const generateHeaderFooter = (titlePDF, imgPDF) => ({
 
 // Função genérica para gerar PDF
 const generatePDF = async (fullTableHTML, titlePDF, imgPDF, pageRanges = '') => {
-    const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
+    const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-crash-reporter'], userDataDir: './tmp'});
+    
     const page = await browser.newPage();
     await page.setContent(generateHTML(fullTableHTML), { waitUntil: 'networkidle0' });
     await page.waitForTimeout(2000);
@@ -82,7 +83,7 @@ app.post('/generate-pdf', async (req, res) => {
         res.contentType("application/pdf").send(pdf);
     } catch (error) {
         console.error('Erro ao gerar o PDF:', error);
-        res.status(500).send('Erro ao gerar o PDF.');
+        res.status(400).send('Erro ao gerar o PDF.');
     }
 });
 
