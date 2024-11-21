@@ -40,7 +40,7 @@ const generateHeaderFooter = (titlePDF, imgPDF) => ({
         <div style="font-size:10px; width:100%; text-align:center; color: grey; display: flex; align-items: center; padding: 0 20px; box-sizing: border-box;"> 
             <div style="display: flex; align-items: center; margin-right: auto;">
                 <img alt="Logo Systextil" style="height: 20px; margin-right: 5px;" src="${base64Image}"/>
-                <span style="text-align: left;">Simplificando a cadeia têxtil!</span>
+                <span style="text-align: left;">Referência em solução de gestão para a cadeia têxtil e da moda</span>
             </div>
             <div style="margin-left: auto;">
                 <span style="white-space: nowrap;">Página <span class="pageNumber"></span> de <span class="totalPages"></span></span>
